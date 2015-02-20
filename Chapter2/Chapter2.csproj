@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Listing2_1.cs" />
+    <Compile Include="ListingBase.cs" />
+    <Compile Include="Listing2_1_Kod_niezrównoleglony.cs" />
     <Compile Include="Listing2_10.cs" />
     <Compile Include="Listing2_11.cs" />
     <Compile Include="Listing2_12.cs" />
@@ -51,12 +52,15 @@
     <Compile Include="Listing2_15.cs" />
     <Compile Include="Listing2_17.cs" />
     <Compile Include="Listing2_18.cs" />
-    <Compile Include="Listing2_2.cs" />
-    <Compile Include="Listing2_3.cs" />
-    <Compile Include="Listing2_4.cs" />
-    <Compile Include="Listing2_5.cs" />
-    <Compile Include="Listing2_7.cs" />
-    <Compile Include="Listing2_9.cs" />
+    <Compile Include="Listing2_2_Tworzenie_I_Uruchamianie_Wątku.cs" />
+    <Compile Include="Listing2_3_Przerywanie_działania_wątku.cs" />
+    <Compile Include="Listing2_4_Wstrzymanie_i_wznawianie_działania_wątku.cs" />
+    <Compile Include="Listing2_5_Wątki_działające_w_tle.cs" />
+    <Compile Include="Listing2_6_Zmiana_Priorytetu_Wątku.cs" />
+    <Compile Include="Listing2_7_Problemy_z_generowaniem_liczb_pseudolosowych.cs" />
+    <Compile Include="Listing2_8_Osobny_generator_liczb_losowych_na_wątek.cs" />
+    <Compile Include="Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN.cs" />
+    <Compile Include="PiCalculator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

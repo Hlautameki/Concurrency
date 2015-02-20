@@ -3,12 +3,12 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_9
+    public class Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN : ListingBase
     {
         static Random r = new Random();
         const int ileWatkow = 10;
         static double pi = 0; //zmienna współdzielona
-        public static void Process()
+        public override void Process()
         {
             int czasPoczatkowy = Environment.TickCount;
             //tworzenie wątków
@@ -32,18 +32,15 @@ namespace Chapter2
             Console.WriteLine("Czas obliczeń: " + (roznica).ToString());
         }
 
-        static void uruchamianieObliczenPi()
+        private void uruchamianieObliczenPi()
         {
             try
             {
-                Console.WriteLine("Uruchamianie obliczeń, wątek nr {0}...",
-                Thread.CurrentThread.ManagedThreadId);
+                Console.WriteLine("Uruchamianie obliczeń, wątek nr {0}...", Thread.CurrentThread.ManagedThreadId);
                 long ilośćPrób = 10000000L / ileWatkow;
-                double pi = obliczPi(ilośćPrób: ilośćPrób);
-                Listing2_9.pi += pi;
-                Console.WriteLine("Pi={0}, błąd={1}, wątek nr {2}",
-                pi, Math.Abs(Math.PI - pi),
-                Thread.CurrentThread.ManagedThreadId);
+                double pi = ObliczPi(ilośćPrób: ilośćPrób);
+                Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN.pi += pi;
+                Console.WriteLine("Pi={0}, błąd={1}, wątek nr {2}", pi, Math.Abs(Math.PI - pi), Thread.CurrentThread.ManagedThreadId);
             }
             catch (ThreadAbortException exc)
             {
@@ -53,20 +50,6 @@ namespace Chapter2
             {
                 Console.WriteLine("Wyjątek (" + exc.Message + ")");
             }
-        }
-
-        static double obliczPi(long ilośćPrób)
-        {
-            double x, y;
-            long ilośćTrafień = 0;
-            for (int i = 0; i < ilośćPrób; ++i)
-            {
-                x = r.NextDouble();
-                y = r.NextDouble();
-                if (x * x + y * y < 1) ++ilośćTrafień;
-                //Console.WriteLine("x={0}, y={1}", x, y);
-            }
-            return 4.0 * ilośćTrafień / ilośćPrób;
-        }
+        }        
     }
 }
