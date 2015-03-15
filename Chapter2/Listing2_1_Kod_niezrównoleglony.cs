@@ -7,7 +7,7 @@ namespace Chapter2
         public override void Process()
         {
             UruchamianieObliczenPi();
-            Console.WriteLine("Czy ten napis pojawi si ę przed otrzymaniem wyniku?");
+            Console.WriteLine("Czy ten napis pojawi się przed otrzymaniem wyniku?");
         }
     }
 }

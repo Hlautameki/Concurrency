@@ -11,20 +11,28 @@ namespace Chapter2
 
         public abstract void Process();
 
+        
+
         public void UruchamianieObliczenPi()
         {
             {
                 int czasPoczatkowy = Environment.TickCount;
                 Console.WriteLine("Uruchamianie obliczeń, wątek nr {0}...", Thread.CurrentThread.ManagedThreadId);
-                double pi = ObliczPi(ilośćPrób);
-                Console.WriteLine("Pi={0}, błąd={1}, wątek nr {2}", pi, Math.Abs(Math.PI - pi), Thread.CurrentThread.ManagedThreadId);
+                Uruchom();
                 int czasKoncowy = Environment.TickCount;
                 int roznica = czasKoncowy - czasPoczatkowy;
                 Console.WriteLine("Czas obliczeń: " + (roznica));
             }
         }
 
-        private static readonly Random Random = new Random();
+        protected virtual double Uruchom()
+        {
+            double pi = ObliczPi(ilośćPrób);
+            Console.WriteLine("Pi={0}, błąd={1}, wątek nr {2}", pi, Math.Abs(Math.PI - pi), Thread.CurrentThread.ManagedThreadId);
+            return pi;
+        }
+
+        protected static readonly Random Random = new Random();
 
         private double ObliczPi(long ilośćPrób)
         {

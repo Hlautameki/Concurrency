@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_8_Osobny_generator_liczb_losowych_na_wątek : ListingBase
+    public class Listing2_7_Problemy_z_generowaniem_liczb_pseudolosowych : ListingBase
     {
         public override void Process()
         {
@@ -14,11 +14,6 @@ namespace Chapter2
                 tt[i].Priority = ThreadPriority.Lowest;
                 tt[i].Start();
             }
-        }
-
-        protected override Random GetGenerator()
-        {
-            return new Random(Random.Next() & DateTime.Now.Millisecond);
-        }
+        }        
     }
 }

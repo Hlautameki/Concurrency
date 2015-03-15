@@ -4,10 +4,9 @@ using System.Threading;
 namespace Chapter2
 {
     public class Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN : ListingBase
-    {
-        static Random r = new Random();
-        const int ileWatkow = 10;
-        static double pi = 0; //zmienna współdzielona
+    {                
+        static double _pi = 0; //zmienna współdzielona
+
         public override void Process()
         {
             int czasPoczatkowy = Environment.TickCount;
@@ -15,32 +14,29 @@ namespace Chapter2
             Thread[] tt = new Thread[ileWatkow];
             for (int i = 0; i < ileWatkow; ++i)
             {
-                tt[i] = new Thread(uruchamianieObliczenPi);
+                tt[i] = new Thread(TryCalculate);
                 tt[i].Priority = ThreadPriority.Lowest;
                 tt[i].Start();
             }
             //czekanie na zakończenie wątków
             foreach (Thread t in tt)
             {
+                //Console.WriteLine("Set Join {0}", t.ManagedThreadId);
                 t.Join();
                 Console.WriteLine("Zakończył działanie wątek nr {0}", t.ManagedThreadId);
             }
-            pi /= ileWatkow;
-            Console.WriteLine("Wszystkie wątki zakończyły działanie.\nUśrednione Pi={0}, błąd={1}", pi, Math.Abs(Math.PI - pi));
+            _pi /= ileWatkow;
+            Console.WriteLine("Wszystkie wątki zakończyły działanie.\nUśrednione Pi={0}, błąd={1}", _pi, Math.Abs(Math.PI - _pi));
             int czasKoncowy = Environment.TickCount;
             int roznica = czasKoncowy - czasPoczatkowy;
             Console.WriteLine("Czas obliczeń: " + (roznica).ToString());
         }
 
-        private void uruchamianieObliczenPi()
+        private void TryCalculate()
         {
             try
             {
-                Console.WriteLine("Uruchamianie obliczeń, wątek nr {0}...", Thread.CurrentThread.ManagedThreadId);
-                long ilośćPrób = 10000000L / ileWatkow;
-                double pi = ObliczPi(ilośćPrób: ilośćPrób);
-                Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN.pi += pi;
-                Console.WriteLine("Pi={0}, błąd={1}, wątek nr {2}", pi, Math.Abs(Math.PI - pi), Thread.CurrentThread.ManagedThreadId);
+                UruchamianieObliczenPi();
             }
             catch (ThreadAbortException exc)
             {
@@ -50,6 +46,18 @@ namespace Chapter2
             {
                 Console.WriteLine("Wyjątek (" + exc.Message + ")");
             }
-        }        
+        }
+
+        protected override double Uruchom()
+        {
+            var pi = base.Uruchom();
+            _pi += pi;
+            return pi;
+        }
+
+        protected override Random GetGenerator()
+        {
+            return new Random(Random.Next() & DateTime.Now.Millisecond);
+        }
     }
 }
