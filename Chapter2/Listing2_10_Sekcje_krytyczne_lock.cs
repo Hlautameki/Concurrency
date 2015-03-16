@@ -27,7 +27,7 @@ namespace Chapter2
                 if (SprawdźCzyTrafienie(generator))
                     ++ilośćTrafień;
             }
-            return 4.0 * ilośćTrafień / IlośćPrób;
+            return 4.0 * ilośćTrafień / WeźIlośćPrób();
         }
     }
 }

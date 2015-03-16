@@ -11,7 +11,7 @@ namespace Chapter2
 
         public abstract void Start();
 
-        public void UruchamianieObliczenPi()
+        public virtual void UruchamianieObliczenPi()
         {
             {
                 int czasPoczatkowy = Environment.TickCount;

@@ -42,6 +42,8 @@ namespace Chapter2
                     break;
                 case 10: listing = new Listing2_10_Sekcje_krytyczne_lock();
                     break;
+                case 11: listing = new Listing2_11_Przesyłanie_danych_do_wątku();
+                    break;
                 default: listing = new Listing2_1_Kod_niezrównoleglony();
                     break;
             }

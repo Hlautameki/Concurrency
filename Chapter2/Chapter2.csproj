@@ -46,7 +46,7 @@
     <Compile Include="ListingBase.cs" />
     <Compile Include="Listing2_1_Kod_niezrównoleglony.cs" />
     <Compile Include="Listing2_10_Sekcje_krytyczne_lock.cs" />
-    <Compile Include="Listing2_11.cs" />
+    <Compile Include="Listing2_11_Przesyłanie_danych_do_wątku.cs" />
     <Compile Include="Listing2_12.cs" />
     <Compile Include="Listing2_13.cs" />
     <Compile Include="Listing2_14.cs" />
