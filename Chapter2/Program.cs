@@ -44,6 +44,8 @@ namespace Chapter2
                     break;
                 case 11: listing = new Listing2_11_Przesyłanie_danych_do_wątku();
                     break;
+                case 12: listing = new Listing2_12_Pula_wątków();
+                    break;
                 default: listing = new Listing2_1_Kod_niezrównoleglony();
                     break;
             }

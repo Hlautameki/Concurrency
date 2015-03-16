@@ -19,6 +19,12 @@ namespace Chapter2
                 t.Join();
                 Console.WriteLine("Zakończył działanie wątek nr {0}", t.ManagedThreadId);
             }
+            
+            PokażInfoOZakończeniu(czasPoczatkowy);
+        }
+
+        protected void PokażInfoOZakończeniu(int czasPoczatkowy)
+        {
             _pi /= IleWatkow;
             Console.WriteLine("Wszystkie wątki zakończyły działanie.\nUśrednione Pi={0}, błąd={1}", _pi, Math.Abs(Math.PI - _pi));
             int czasKoncowy = Environment.TickCount;

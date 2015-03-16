@@ -7,7 +7,10 @@ namespace Chapter2
     {
         protected const long IlośćPrób = 10000000L;
 
-        public static int IleWatkow = 10;
+        public virtual int IleWatkow
+        {
+            get { return 10; }
+        }
 
         public abstract void Start();
 
