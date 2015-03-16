@@ -5,7 +5,7 @@ namespace Chapter2
 {
     public class Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN : ListingBase
     {                
-        static double _pi = 0; //zmienna współdzielona
+        protected static double _pi = 0; //zmienna współdzielona
 
         public override void Process()
         {
@@ -51,8 +51,13 @@ namespace Chapter2
         protected override double Uruchom()
         {
             var pi = base.Uruchom();
-            _pi += pi;
+            ZwiększPi(pi);
             return pi;
+        }
+
+        protected virtual void ZwiększPi(double pi)
+        {
+            _pi += pi;
         }
 
         protected override Random GetGenerator()

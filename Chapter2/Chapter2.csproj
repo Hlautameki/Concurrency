@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="ListingBase.cs" />
     <Compile Include="Listing2_1_Kod_niezrównoleglony.cs" />
-    <Compile Include="Listing2_10.cs" />
+    <Compile Include="Listing2_10_Sekcje_krytyczne_lock.cs" />
     <Compile Include="Listing2_11.cs" />
     <Compile Include="Listing2_12.cs" />
     <Compile Include="Listing2_13.cs" />

@@ -40,13 +40,15 @@ namespace Chapter2
                     break;
                 case 9: listing = new Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN();
                     break;
+                case 10: listing = new Listing2_10_Sekcje_krytyczne_lock();
+                    break;
                 default: listing = new Listing2_1_Kod_niezrównoleglony();
                     break;
             }
 
             listing.Process();
 
-            //Console.ReadKey();
+            Console.ReadKey();
         }
 
         private static void GetListeningNumber()
