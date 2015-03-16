@@ -18,7 +18,7 @@ namespace Chapter2
             return tt;
         }
 
-        protected void TryCalculate(object parameter)
+        protected virtual void TryCalculate(object parameter)
         {
             try
             {

@@ -46,6 +46,8 @@ namespace Chapter2
                     break;
                 case 12: listing = new Listing2_12_Pula_wątków();
                     break;
+                case 13: listing = new Listing2_13_Sygnalizacja_zakończenia_pracy_wątku();
+                    break;
                 default: listing = new Listing2_1_Kod_niezrównoleglony();
                     break;
             }

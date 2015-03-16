@@ -48,7 +48,7 @@
     <Compile Include="Listing2_10_Sekcje_krytyczne_lock.cs" />
     <Compile Include="Listing2_11_Przesyłanie_danych_do_wątku.cs" />
     <Compile Include="Listing2_12_Pula_wątków.cs" />
-    <Compile Include="Listing2_13.cs" />
+    <Compile Include="Listing2_13_Sygnalizacja_zakończenia_pracy_wątku.cs" />
     <Compile Include="Listing2_14.cs" />
     <Compile Include="Listing2_15.cs" />
     <Compile Include="Listing2_17.cs" />
