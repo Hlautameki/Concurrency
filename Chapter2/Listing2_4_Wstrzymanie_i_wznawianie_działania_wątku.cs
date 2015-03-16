@@ -5,7 +5,7 @@ namespace Chapter2
 {
     public class Listing2_4_Wstrzymanie_i_wznawianie_działania_wątku : ListingBase
     {
-        public override void Process()
+        public override void Start()
         {
             Thread t = new Thread(UruchamianieObliczenPi);
             t.Start();

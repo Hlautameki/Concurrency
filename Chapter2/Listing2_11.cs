@@ -33,6 +33,8 @@ namespace Chapter2
             Console.WriteLine("Czas obliczeń: " + (roznica).ToString());
         }
 
+        
+
         static void uruchamianieObliczenPi(object parametr)
         {
             try

@@ -13,7 +13,7 @@ namespace Chapter2
             //pi.CreateNoWindow = false;
             //pi.UseShellExecute = false;
             //Console.WriteLine("Press Enter after attach succeeded");
-            //Process.Start(pi);
+            //Start.Start(pi);
             
             GetListeningNumber();
             Console.Clear();
@@ -46,7 +46,7 @@ namespace Chapter2
                     break;
             }
 
-            listing.Process();
+            listing.Start();
 
             Console.ReadKey();
         }

@@ -5,11 +5,11 @@ namespace Chapter2
 {
     public abstract class ListingBase
     {
-        protected const long ilośćPrób = 10000000L;
+        protected const long IlośćPrób = 10000000L;
 
-        public static int ileWatkow = 10;
+        public static int IleWatkow = 10;
 
-        public abstract void Process();        
+        public abstract void Start();
 
         public void UruchamianieObliczenPi()
         {
@@ -36,12 +36,17 @@ namespace Chapter2
         {
             long ilośćTrafień = 0;
             var generator = GetGenerator();
-            for (long i = 0; i < ilośćPrób; ++i)
+            for (long i = 0; i < WeźIlośćPrób(); ++i)
             {
                 if (SprawdźCzyTrafienie(generator))
                     ilośćTrafień++;
             }
-            return 4.0 * ilośćTrafień / ilośćPrób;
+            return 4.0 * ilośćTrafień / WeźIlośćPrób();
+        }
+
+        protected virtual long WeźIlośćPrób()
+        {
+            return IlośćPrób;
         }
 
         protected virtual bool SprawdźCzyTrafienie(Random generator)

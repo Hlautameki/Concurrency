@@ -5,7 +5,7 @@ namespace Chapter2
 {
     public class Listing2_2_Tworzenie_I_Uruchamianie_Wątku : ListingBase
     {
-        public override void Process()
+        public override void Start()
         {
             Thread t = new Thread(UruchamianieObliczenPi);
             t.Start();

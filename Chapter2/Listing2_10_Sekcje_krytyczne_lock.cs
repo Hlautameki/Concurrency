@@ -14,9 +14,9 @@ namespace Chapter2
         {
             long ilośćTrafień = 0;
             var generator = GetGenerator();
-            for (long i = 0; i < ilośćPrób; ++i)
+            for (long i = 0; i < WeźIlośćPrób(); ++i)
             {
-                if (i == ilośćPrób / 2)
+                if (i == IlośćPrób / 2)
                 {
                     lock ((object)_pi) //pudełkowanie
                     {
@@ -27,7 +27,7 @@ namespace Chapter2
                 if (SprawdźCzyTrafienie(generator))
                     ++ilośćTrafień;
             }
-            return 4.0 * ilośćTrafień / ilośćPrób;
+            return 4.0 * ilośćTrafień / IlośćPrób;
         }
     }
 }
