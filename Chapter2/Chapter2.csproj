@@ -49,10 +49,10 @@
     <Compile Include="Listing2_11_Przesyłanie_danych_do_wątku.cs" />
     <Compile Include="Listing2_12_Pula_wątków.cs" />
     <Compile Include="Listing2_13_Sygnalizacja_zakończenia_pracy_wątku.cs" />
-    <Compile Include="Listing2_14.cs" />
-    <Compile Include="Listing2_15.cs" />
-    <Compile Include="Listing2_17.cs" />
-    <Compile Include="Listing2_18.cs" />
+    <Compile Include="Listing2_14_Operacje_atomowe.cs" />
+    <Compile Include="Listing2_15_System_threading_timer.cs" />
+    <Compile Include="Listing2_17_System_timers_timer.cs" />
+    <Compile Include="Listing2_18_Abort.cs" />
     <Compile Include="Listing2_2_Tworzenie_I_Uruchamianie_Wątku.cs" />
     <Compile Include="Listing2_3_Przerywanie_działania_wątku.cs" />
     <Compile Include="Listing2_4_Wstrzymanie_i_wznawianie_działania_wątku.cs" />

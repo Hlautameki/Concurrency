@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chapter2
 {
-    public class Listing2_15
+    public class Listing2_15_System_threading_timer
     {
         private static Random r = new Random();
         static long całkowitaIlośćPrób = 0L;
@@ -80,7 +80,7 @@ namespace Chapter2
 
         static long obliczPi(long ilośćPrób)
         {
-            Random r = new Random(Listing2_15.r.Next() & DateTime.Now.Millisecond);
+            Random r = new Random(Listing2_15_System_threading_timer.r.Next() & DateTime.Now.Millisecond);
             double x, y;
             long ilośćTrafień = 0;
             for (long i = 0; i < ilośćPrób; ++i)

@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_17
+    public class Listing2_18_Abort
     {
         private static Random r = new Random();
         static long całkowitaIlośćPrób = 0L;
@@ -33,15 +33,31 @@ namespace Chapter2
             int roznica = czasKoncowy - czasPoczatkowy;
             Console.WriteLine("Czas obliczeń: " + (roznica).ToString());
 
-            System.Timers.Timer timer = new System.Timers.Timer(1000);
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(
-             (object sender, System.Timers.ElapsedEventArgs e) =>
-             {
-                 Console.WriteLine("Ilość prób: " +
-                 Interlocked.Read(ref całkowitaIlośćPrób).ToString() +
-                 "/" + (ileWatkow * ilośćPróbWWątku).ToString());
-             });
-            timer.Start();
+            Thread watekAlaTimer = new Thread(
+ () =>
+ {
+     Console.WriteLine("Uruchamiam wątek sprawozdawczy");
+     try
+     {
+         while (true)
+         {
+             Thread.Sleep(1000);
+             Console.WriteLine("Ilość prób: " + Interlocked.Read(ref
+ całkowitaIlośćPrób).ToString() + "/"
+             + (ileWatkow * ilośćPróbWWątku).ToString());
+         }
+     }
+     catch (ThreadAbortException exc)
+     {
+         Console.WriteLine("Przerywanie działania wątku sprawozdawczego.\nKońcowa ilość prób: " + Interlocked.Read(ref
+ całkowitaIlośćPrób).ToString() + "/" +
+         (ileWatkow * ilośćPróbWWątku).ToString());
+     }
+ });
+            watekAlaTimer.Priority = ThreadPriority.Highest;
+            watekAlaTimer.IsBackground = true;
+            watekAlaTimer.Start();
+
         }
 
         private static void uruchamianieObliczenPi(object parametr)
@@ -71,7 +87,7 @@ namespace Chapter2
 
         static long obliczPi(long ilośćPrób)
         {
-            Random r = new Random(Listing2_17.r.Next() & DateTime.Now.Millisecond);
+            Random r = new Random(Listing2_18_Abort.r.Next() & DateTime.Now.Millisecond);
             double x, y;
             long ilośćTrafień = 0;
             for (long i = 0; i < ilośćPrób; ++i)
