@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chapter2
 {
@@ -10,12 +6,23 @@ namespace Chapter2
     {
         public static void ShowResult(double pi)
         {
-            Console.WriteLine("Pi={0}, błąd={1}", pi, Math.Abs(Math.PI - pi));
+            Console.Write("{0,0}", "Pi: ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("{0,20}", pi);
+            Console.ResetColor();            
+            Console.Write("{0,20}", "błąd: ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(Math.Abs(Math.PI - pi));
+            Console.ResetColor();
         }
 
         public static void ShowTime(int roznica)
         {
-            Console.WriteLine("Czas obliczeń: " + roznica);
+            Console.Write("Czas obliczeń: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(roznica);
+            Console.ResetColor();
+            Console.WriteLine(" (milisekund)");
         }
     }
 }
