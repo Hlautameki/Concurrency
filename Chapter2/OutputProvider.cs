@@ -8,9 +8,9 @@ namespace Chapter2
         {
             Console.Write("{0,0}", "Pi: ");
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write("{0,20}", pi);
+            Console.Write("{0}", pi);
             Console.ResetColor();            
-            Console.Write("{0,20}", "błąd: ");
+            Console.Write("{0,8}", "błąd: ");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine(Math.Abs(Math.PI - pi));
             Console.ResetColor();
