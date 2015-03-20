@@ -77,7 +77,7 @@ namespace Chapter2
 
         private static void TryStart()
         {
-            ListingBase listing = null;
+            IListingBase listing = null;
 
             switch (_listeningNumber)
             {

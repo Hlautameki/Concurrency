@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IListingBase.cs" />
     <Compile Include="ListingBase.cs" />
     <Compile Include="Listing2_1_Kod_niezrównoleglony.cs" />
     <Compile Include="Listing2_10_Sekcje_krytyczne_lock.cs" />
@@ -61,6 +62,8 @@
     <Compile Include="Listing2_7_Problemy_z_generowaniem_liczb_pseudolosowych.cs" />
     <Compile Include="Listing2_8_Osobny_generator_liczb_losowych_na_wątek.cs" />
     <Compile Include="Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN.cs" />
+    <Compile Include="ListingBase2.cs" />
+    <Compile Include="OutputProvider.cs" />
     <Compile Include="PiCalculator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

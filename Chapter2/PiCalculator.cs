@@ -13,8 +13,8 @@ namespace Chapter2
             {
                 var x = Random.NextDouble();
                 var y = Random.NextDouble();
-                if (x * x + y * y < 1) ++ilośćTrafień;
-                //Console.WriteLine("x={0}, y={1}", x, y);
+                if (x * x + y * y < 1) 
+                    ++ilośćTrafień;
             }
             return 4.0 * ilośćTrafień / ilośćPrób;
         }

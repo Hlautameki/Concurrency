@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public abstract class ListingBase
+    public abstract class ListingBase : IListingBase
     {
         protected const long IlośćPrób = 10000000L;
 

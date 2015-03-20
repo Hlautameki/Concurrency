@@ -2,12 +2,18 @@
 
 namespace Chapter2
 {
-    public class Listing2_1_Kod_niezrównoleglony : ListingBase
+    public class Listing2_1_Kod_niezrównoleglony : ListingBase2
     {
         public override void Start()
         {
-            UruchamianieObliczenPi();
-            Console.WriteLine("Czy ten napis pojawi się przed otrzymaniem wyniku?");
+            int czasPoczatkowy = Environment.TickCount;
+            
+            double pi = PiCalculator.ObliczPi(IlośćPrób);
+            OutputProvider.ShowResult(pi);
+
+            int czasKoncowy = Environment.TickCount;
+            int roznica = czasKoncowy - czasPoczatkowy;
+            OutputProvider.ShowTime(roznica);
         }
     }
 }
