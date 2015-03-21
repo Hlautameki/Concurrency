@@ -3,74 +3,54 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN : Listing2_8_Osobny_generator_liczb_losowych_na_wątek
+    public class Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN : IListingBase
     {
-        protected static double _pi = 0; //zmienna współdzielona
+        const int IleWatkow = 10;
+        static double _pi = 0; //zmienna współdzielona
 
-        public override void Start()
+        protected const long IlośćPrób = 1000000000L;
+
+        public void Start()
         {
             int czasPoczatkowy = Environment.TickCount;
-            //tworzenie wątków
-            Thread[] tt = WeźWątki();
-            //czekanie na zakończenie wątków
-            foreach (Thread t in tt)
-            {
-                //Console.WriteLine("Set Join {0}", t.ManagedThreadId);
-                t.Join();
-                Console.WriteLine("Zakończył działanie wątek nr {0}", t.ManagedThreadId);
-            }
-            
-            PokażInfoOZakończeniu(czasPoczatkowy);
-        }
-
-        protected void PokażInfoOZakończeniu(int czasPoczatkowy)
-        {
-            _pi /= IleWatkow;
-            Console.WriteLine("Wszystkie wątki zakończyły działanie.\nUśrednione Pi={0}, błąd={1}", _pi, Math.Abs(Math.PI - _pi));
-            int czasKoncowy = Environment.TickCount;
-            int roznica = czasKoncowy - czasPoczatkowy;
-            Console.WriteLine("Czas obliczeń: " + (roznica).ToString());
-        }
-
-        protected override Thread[] WeźWątki()
-        {
             Thread[] tt = new Thread[IleWatkow];
             for (int i = 0; i < IleWatkow; ++i)
             {
-                tt[i] = new Thread(TryCalculate);
+                tt[i] = new Thread(UruchamianieObliczenPi);
                 tt[i].Priority = ThreadPriority.Lowest;
                 tt[i].Start();
             }
 
-            return tt;
+            //czekanie na zakończenie wątków
+            foreach (Thread t in tt)
+            {
+                t.Join();
+                OutputProvider.ShowThreadEndMessage(t.ManagedThreadId);
+            }
+            _pi /= IleWatkow;
+            OutputProvider.ShowAllThreadsEndMessage(_pi);
+            int czasKoncowy = Environment.TickCount;
+            int roznica = czasKoncowy - czasPoczatkowy;
+            OutputProvider.ShowTime(roznica);
         }
 
-        private void TryCalculate()
+        private void UruchamianieObliczenPi()
         {
             try
-            {
-                UruchamianieObliczenPi();
+            {                
+                OutputProvider.ShowStartLabelOneLine();
+                double pi = PiCalculator.ObliczPiWithInnerRandomGenerator(IlośćPrób / IleWatkow);
+                _pi += pi;
+                OutputProvider.ShowResultWithThreadNumber(pi);
             }
-            catch (ThreadAbortException exc)
+            catch (ThreadAbortException ex)
             {
-                Console.WriteLine("Działanie wątku zostało przerwane (" + exc.Message + ")");
+                OutputProvider.ShowThreadAbortException(ex.Message);
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                Console.WriteLine("Wyjątek (" + exc.Message + ")");
+                OutputProvider.ShowErrorMessage(ex.Message);
             }
-        }
-
-        protected override double Uruchom()
-        {
-            var pi = base.Uruchom();
-            ZwiększPi(pi);
-            return pi;
-        }
-
-        protected virtual void ZwiększPi(double pi)
-        {
-            _pi += pi;
         }
     }
 }

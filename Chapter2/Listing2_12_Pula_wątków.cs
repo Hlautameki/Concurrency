@@ -3,18 +3,17 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_12_Pula_wątków : Listing2_11_Przesyłanie_danych_do_wątku
+    public class Listing2_12_Pula_wątków : IListingBase
     {
-        public override int IleWatkow
-        {
-            get { return 100; }
-        }
+        public const int IleWatkow = 100;
+        static double _pi = 0; //zmienna współdzielona
+        protected const long IlośćPrób = 1000000000L;
 
-        public override void Start()
+        public void Start()
         {
             int czasPoczatkowy = Environment.TickCount;
             //tworzenie wątków
-            WaitCallback metodaWatku = TryCalculate;
+            WaitCallback metodaWatku = UruchamianieObliczenPi;
             ThreadPool.SetMaxThreads(30, 100);
             for (int i = 0; i < IleWatkow; ++i)
             {
@@ -34,8 +33,32 @@ namespace Chapter2
                 Thread.Sleep(100);
             }
             while (ileDzialajacychWatkowPuli > 0);
+            _pi /= IleWatkow;
 
-            PokażInfoOZakończeniu(czasPoczatkowy);
+            OutputProvider.ShowAllThreadsEndMessage(_pi);
+            int czasKoncowy = Environment.TickCount;
+            int roznica = czasKoncowy - czasPoczatkowy;            
+            OutputProvider.ShowTime(roznica);
+        }
+
+        private void UruchamianieObliczenPi(object parametr)
+        {
+            try
+            {
+                int? indeks = parametr as int?;
+                OutputProvider.ShowStartLabel(indeks);
+                double pi = PiCalculator.ObliczPiWithInnerRandomGeneratorAndLockSection(IlośćPrób / IleWatkow, _pi);
+                _pi += pi;
+                OutputProvider.ShowResultWithThreadNumber(pi);
+            }
+            catch (ThreadAbortException ex)
+            {
+                OutputProvider.ShowThreadAbortException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                OutputProvider.ShowErrorMessage(ex.Message);
+            }
         }
     }
 }

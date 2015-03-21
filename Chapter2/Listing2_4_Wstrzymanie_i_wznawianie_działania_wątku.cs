@@ -3,17 +3,40 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_4_Wstrzymanie_i_wznawianie_działania_wątku : ListingBase
+    public class Listing2_4_Wstrzymanie_i_wznawianie_działania_wątku : IListingBase
     {
-        public override void Start()
+        private const long IlośćPrób = 10000000L;
+
+        public void Start()
         {
             Thread t = new Thread(UruchamianieObliczenPi);
             t.Start();
-            Thread.Sleep(500);            
+            Thread.Sleep(500);
             t.Suspend();
-            Console.WriteLine("Naciśnij Enter, aby kontynuować działanie wątku...");
-            Console.ReadLine();
-            t.Resume();
+            OutputProvider.AskForContinuation();
+            t.Resume();            
+        }
+
+        private void UruchamianieObliczenPi()
+        {
+            try
+            {
+                int czasPoczatkowy = Environment.TickCount;
+                OutputProvider.ShowStartLabel();
+                double pi = PiCalculator.ObliczPi(IlośćPrób);
+                OutputProvider.ShowResultWithThreadNumber(pi);
+                int czasKoncowy = Environment.TickCount;
+                int roznica = czasKoncowy - czasPoczatkowy;
+                OutputProvider.ShowTime(roznica);
+            }
+            catch (ThreadAbortException ex)
+            {
+                OutputProvider.ShowThreadAbortException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                OutputProvider.ShowErrorMessage(ex.Message);
+            }
         }
     }
 }

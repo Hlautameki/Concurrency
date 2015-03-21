@@ -3,35 +3,27 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_17_System_timers_timer
-    {
-        private static Random r = new Random();
+    public class Listing2_17_System_timers_timer : IListingBase
+    {        
         static long całkowitaIlośćPrób = 0L;
-        private const int ileWatkow = 100;
-        private const long ilośćPróbWWątku = 10000000L;
+        private const int IleWatkow = 100;
+        private const long ilośćPróbWWątku = 1000000L;
         private static long całkowitaIlośćTrafień = 0L;
         private static double pi = 0;
 
-        private static EventWaitHandle[] ewht = new EventWaitHandle[ileWatkow];
+        private static EventWaitHandle[] ewht = new EventWaitHandle[IleWatkow];
 
-        public static void Process()
+        public void Start()
         {
             int czasPoczatkowy = Environment.TickCount;
             //tworzenie wątków
             ThreadPool.SetMaxThreads(30, 100);
-            WaitCallback metodaWatku = uruchamianieObliczenPi;
-            for (int i = 0; i < ileWatkow; ++i)
+            WaitCallback metodaWatku = UruchamianieObliczenPi;
+            for (int i = 0; i < IleWatkow; ++i)
             {
                 ewht[i] = new EventWaitHandle(false, EventResetMode.AutoReset);
                 ThreadPool.QueueUserWorkItem(metodaWatku, i);
             }
-            for (int i = 0; i < ileWatkow; ++i) ewht[i].WaitOne();
-            double pi = 4.0 * całkowitaIlośćTrafień / (ilośćPróbWWątku * ileWatkow);
-            Console.WriteLine("Wszystkie wątki zakończyły dział anie.\nUśrednione Pi={0}, błąd={1}", pi,
-                Math.Abs(Math.PI - pi));
-            int czasKoncowy = Environment.TickCount;
-            int roznica = czasKoncowy - czasPoczatkowy;
-            Console.WriteLine("Czas obliczeń: " + (roznica).ToString());
 
             System.Timers.Timer timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(
@@ -39,50 +31,40 @@ namespace Chapter2
              {
                  Console.WriteLine("Ilość prób: " +
                  Interlocked.Read(ref całkowitaIlośćPrób).ToString() +
-                 "/" + (ileWatkow * ilośćPróbWWątku).ToString());
+                 "/" + (IleWatkow * ilośćPróbWWątku).ToString());
              });
             timer.Start();
+
+            for (int i = 0; i < IleWatkow; ++i)
+                ewht[i].WaitOne();
+            double pi = 4.0 * całkowitaIlośćTrafień / (ilośćPróbWWątku * IleWatkow);
+            OutputProvider.ShowAllThreadsEndMessage(pi);
+            int czasKoncowy = Environment.TickCount;
+            int roznica = czasKoncowy - czasPoczatkowy;
+            OutputProvider.ShowTime(roznica);
+
+            timer.Stop();
+            timer.Dispose();
         }
 
-        private static void uruchamianieObliczenPi(object parametr)
+        private static void UruchamianieObliczenPi(object parametr)
         {
             try
             {
                 int? indeks = parametr as int?;
-                Console.WriteLine("Uruchamianie obliczeń, watek nr {0}, indeks {1}...",
-                    Thread.CurrentThread.ManagedThreadId, indeks.HasValue ? indeks.Value.ToString() : "---");
-                long ilośćPrób = 1000000000L / ileWatkow;
-                long ilośćTrafień = obliczPi(ilośćPrób: ilośćPróbWWątku);
-                pi += pi;
+                OutputProvider.ShowStartLabel(indeks);
+                var ilośćTrafień = PiCalculator.ObliczIlośćTrafień(ilośćPróbWWątku, ref całkowitaIlośćPrób);
                 Interlocked.Add(ref całkowitaIlośćTrafień, ilośćTrafień);
-                Console.WriteLine("Pi={0}, błąd={1}, wątek nr {2}", pi, Math.Abs(Math.PI - pi),
-                    Thread.CurrentThread.ManagedThreadId);
                 ewht[indeks.Value].Set();
             }
-            catch (ThreadAbortException exc)
+            catch (ThreadAbortException ex)
             {
-                Console.WriteLine("Działanie wątku zostało przerwane (" + exc.Message + ")");
+                OutputProvider.ShowThreadAbortException(ex.Message);
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                Console.WriteLine("Wyjątek (" + exc.Message + ")");
+                OutputProvider.ShowErrorMessage(ex.Message);
             }
         }
-
-        static long obliczPi(long ilośćPrób)
-        {
-            Random r = new Random(Listing2_17_System_timers_timer.r.Next() & DateTime.Now.Millisecond);
-            double x, y;
-            long ilośćTrafień = 0;
-            for (long i = 0; i < ilośćPrób; ++i)
-            {
-                x = r.NextDouble();
-                y = r.NextDouble();
-                if (x * x + y * y < 1) ++ilośćTrafień;
-                Interlocked.Increment(ref całkowitaIlośćPrób);
-                //Console.WriteLine("x={0}, y={1}", x, y);
-            }
-            return ilośćTrafień;
-        }
-    }
+    }   
 }

@@ -3,48 +3,54 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_11_Przesyłanie_danych_do_wątku : Listing2_10_Sekcje_krytyczne_lock
+    public class Listing2_11_Przesyłanie_danych_do_wątku : IListingBase
     {
-        protected override Thread[] WeźWątki()
+        const int IleWatkow = 10;
+        static double _pi = 0; //zmienna współdzielona
+
+        protected const long IlośćPrób = 1000000000L;
+
+        public void Start()
         {
+            int czasPoczatkowy = Environment.TickCount;
             Thread[] tt = new Thread[IleWatkow];
             for (int i = 0; i < IleWatkow; ++i)
             {
-                tt[i] = new Thread(TryCalculate);
+                tt[i] = new Thread(UruchamianieObliczenPi);
                 tt[i].Priority = ThreadPriority.Lowest;
                 tt[i].Start(i);
             }
 
-            return tt;
+            //czekanie na zakończenie wątków
+            foreach (Thread t in tt)
+            {
+                t.Join();
+                OutputProvider.ShowThreadEndMessage(t.ManagedThreadId);
+            }
+            _pi /= IleWatkow;
+            OutputProvider.ShowAllThreadsEndMessage(_pi);
+            int czasKoncowy = Environment.TickCount;
+            int roznica = czasKoncowy - czasPoczatkowy;
+            OutputProvider.ShowTime(roznica);
         }
 
-        protected virtual void TryCalculate(object parameter)
+        private void UruchamianieObliczenPi(object parametr)
         {
             try
             {
-                UruchamianieObliczenPi(parameter);
-            }
-            catch (ThreadAbortException exc)
-            {
-                Console.WriteLine("Działanie wątku zostało przerwane (" + exc.Message + ")");
-            }
-            catch (Exception exc)
-            {
-                Console.WriteLine("Wyjątek (" + exc.Message + ")");
-            }
-        }
-
-        public virtual void UruchamianieObliczenPi(object parametr)
-        {
-            {
                 int? indeks = parametr as int?;
-                int czasPoczatkowy = Environment.TickCount;
-                Console.WriteLine("Uruchamianie obliczeń, wątek nr {0} , indeks {1}...", Thread.CurrentThread.ManagedThreadId,
-                    indeks.HasValue ? indeks.Value.ToString() : "---");
-                Uruchom();
-                int czasKoncowy = Environment.TickCount;
-                int roznica = czasKoncowy - czasPoczatkowy;
-                Console.WriteLine("Czas obliczeń: " + (roznica));
+                OutputProvider.ShowStartLabel(indeks);
+                double pi = PiCalculator.ObliczPiWithInnerRandomGeneratorAndLockSection(IlośćPrób / IleWatkow, _pi);
+                _pi += pi;
+                OutputProvider.ShowResultWithThreadNumber(pi);
+            }
+            catch (ThreadAbortException ex)
+            {
+                OutputProvider.ShowThreadAbortException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                OutputProvider.ShowErrorMessage(ex.Message);
             }
         }
     }

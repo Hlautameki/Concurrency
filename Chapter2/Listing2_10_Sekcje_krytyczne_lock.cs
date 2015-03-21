@@ -3,31 +3,54 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_10_Sekcje_krytyczne_lock : Listing2_9_Czekanie_na_ukończenie_pracy_wątku_metoda_JOIN
+    public class Listing2_10_Sekcje_krytyczne_lock : IListingBase
     {
-        protected override void ZwiększPi(double pi)
+        const int IleWatkow = 10;
+        static double _pi = 0; //zmienna współdzielona
+
+        protected const long IlośćPrób = 1000000000L;
+
+        public void Start()
         {
-            lock (Random) _pi += pi;
+            int czasPoczatkowy = Environment.TickCount;
+            Thread[] tt = new Thread[IleWatkow];
+            for (int i = 0; i < IleWatkow; ++i)
+            {
+                tt[i] = new Thread(UruchamianieObliczenPi);
+                tt[i].Priority = ThreadPriority.Lowest;
+                tt[i].Start();
+            }
+
+            //czekanie na zakończenie wątków
+            foreach (Thread t in tt)
+            {
+                t.Join();
+                OutputProvider.ShowThreadEndMessage(t.ManagedThreadId);
+            }
+            _pi /= IleWatkow;
+            OutputProvider.ShowAllThreadsEndMessage(_pi);
+            int czasKoncowy = Environment.TickCount;
+            int roznica = czasKoncowy - czasPoczatkowy;
+            OutputProvider.ShowTime(roznica);
         }
 
-        protected override double ObliczPi()
+        private void UruchamianieObliczenPi()
         {
-            long ilośćTrafień = 0;
-            var generator = GetGenerator();
-            for (long i = 0; i < WeźIlośćPrób(); ++i)
-            {
-                if (i == IlośćPrób / 2)
-                {
-                    lock ((object)_pi) //pudełkowanie
-                    {
-                        Console.WriteLine("Synchronizacja: wątek nr {0} osiągnął półmetek",
-                        Thread.CurrentThread.ManagedThreadId);
-                    }
-                }
-                if (SprawdźCzyTrafienie(generator))
-                    ++ilośćTrafień;
+            try
+            {                
+                OutputProvider.ShowStartLabelOneLine();
+                double pi = PiCalculator.ObliczPiWithInnerRandomGeneratorAndLockSection(IlośćPrób / IleWatkow, _pi);
+                _pi += pi;
+                OutputProvider.ShowResultWithThreadNumber(pi);
             }
-            return 4.0 * ilośćTrafień / WeźIlośćPrób();
+            catch (ThreadAbortException ex)
+            {
+                OutputProvider.ShowThreadAbortException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                OutputProvider.ShowErrorMessage(ex.Message);
+            }
         }
     }
 }

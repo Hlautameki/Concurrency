@@ -106,7 +106,15 @@ namespace Chapter2
                 case 12: listing = new Listing2_12_Pula_wątków();
                     break;
                 case 13: listing = new Listing2_13_Sygnalizacja_zakończenia_pracy_wątku();
-                    break;                
+                    break;
+                case 14: listing = new Listing2_14_Operacje_atomowe();
+                    break;
+                case 15: listing = new Listing2_15_System_threading_timer();
+                    break;
+                case 16: listing = new Listing2_17_System_timers_timer();
+                    break;
+                case 17: listing = new Listing2_18_Abort();
+                    break;
             }
 
             if (listing == null) 

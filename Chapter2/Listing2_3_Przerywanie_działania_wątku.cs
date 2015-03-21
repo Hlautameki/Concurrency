@@ -3,32 +3,38 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_3_Przerywanie_działania_wątku : ListingBase
+    public class Listing2_3_Przerywanie_działania_wątku : IListingBase
     {
-        public override void Start()
+        private const long IlośćPrób = 10000000L;
+
+        public void Start()
         {
-            Thread t = new Thread(TryCalculate);
+            Thread t = new Thread(UruchamianieObliczenPi);
             t.Start();
             Thread.Sleep(500);
             t.Abort();
-            Console.WriteLine("Czy ten napis pojawi si ę przed otrzymaniem wyniku?");
+            OutputProvider.ShowQuestion();
         }
 
-        private void TryCalculate()
+        private void UruchamianieObliczenPi()
         {
             try
             {
-                UruchamianieObliczenPi();
+                int czasPoczatkowy = Environment.TickCount;
+                OutputProvider.ShowStartLabel();
+                double pi = PiCalculator.ObliczPi(IlośćPrób);
+                OutputProvider.ShowResultWithThreadNumber(pi);
+                int czasKoncowy = Environment.TickCount;
+                int roznica = czasKoncowy - czasPoczatkowy;
+                OutputProvider.ShowTime(roznica);
             }
-            catch (ThreadAbortException exc)
+            catch (ThreadAbortException ex)
             {
-                Console.WriteLine("Działanie wątku zostało przerwane (" + exc.Message + ")");
-                //Thread.ResetAbort();
-                //Calculate();
+                OutputProvider.ShowThreadAbortException(ex.Message);
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                Console.WriteLine("Wyjątek (" + exc.Message + ")");
+                OutputProvider.ShowErrorMessage(ex.Message);
             }
         }
     }
