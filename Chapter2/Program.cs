@@ -22,7 +22,7 @@ namespace Chapter2
         private const string OperacjeAtomowe = "Operacje atomowe";
         private const string SystemThreadingTimers = "System.Threading.Timers";
         private const string SystemTimersTimer = "System.Timers.Timer";
-        private const string Abort = "Abort";
+        private const string WatekAlaTimer = "Wątek ala timer";
         private const string Mask = "{0}: {1}";
         private static bool _exit = false;
 
@@ -71,7 +71,7 @@ namespace Chapter2
             Console.WriteLine(Mask, 14, OperacjeAtomowe);
             Console.WriteLine(Mask, 15, SystemThreadingTimers);
             Console.WriteLine(Mask, 16, SystemTimersTimer);
-            Console.WriteLine(Mask, 17, Abort);
+            Console.WriteLine(Mask, 17, WatekAlaTimer);
             Console.WriteLine("Enter: wyjście");
         }
 
@@ -113,7 +113,7 @@ namespace Chapter2
                     break;
                 case 16: listing = new Listing2_17_System_timers_timer();
                     break;
-                case 17: listing = new Listing2_18_Abort();
+                case 17: listing = new Listing2_18_Watek_ala_timer();
                     break;
             }
 

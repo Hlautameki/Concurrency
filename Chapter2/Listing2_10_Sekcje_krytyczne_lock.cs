@@ -40,7 +40,8 @@ namespace Chapter2
             {                
                 OutputProvider.ShowStartLabelOneLine();
                 double pi = PiCalculator.ObliczPiWithInnerRandomGeneratorAndLockSection(IlośćPrób / IleWatkow, _pi);
-                _pi += pi;
+                lock (PiCalculator.Random) 
+                    _pi += pi;
                 OutputProvider.ShowResultWithThreadNumber(pi);
             }
             catch (ThreadAbortException ex)

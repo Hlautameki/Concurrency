@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace Chapter2
 {
-    public class Listing2_18_Abort : IListingBase
+    public class Listing2_18_Watek_ala_timer : IListingBase
     {
         static long całkowitaIlośćPrób = 0L;
         private const int IleWatkow = 100;
@@ -25,8 +25,7 @@ namespace Chapter2
                 ThreadPool.QueueUserWorkItem(metodaWatku, i);
             }
 
-            Thread watekAlaTimer = new Thread(
-             () =>
+            Thread watekAlaTimer = new Thread(() =>
              {
                  Console.WriteLine("Uruchamiam wątek sprawozdawczy");
                  try

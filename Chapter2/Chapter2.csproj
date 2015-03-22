@@ -52,7 +52,7 @@
     <Compile Include="Listing2_14_Operacje_atomowe.cs" />
     <Compile Include="Listing2_15_System_threading_timer.cs" />
     <Compile Include="Listing2_17_System_timers_timer.cs" />
-    <Compile Include="Listing2_18_Abort.cs" />
+    <Compile Include="Listing2_18_Watek_ala_timer.cs" />
     <Compile Include="Listing2_2_Tworzenie_I_Uruchamianie_Wątku.cs" />
     <Compile Include="Listing2_3_Przerywanie_działania_wątku.cs" />
     <Compile Include="Listing2_4_Wstrzymanie_i_wznawianie_działania_wątku.cs" />

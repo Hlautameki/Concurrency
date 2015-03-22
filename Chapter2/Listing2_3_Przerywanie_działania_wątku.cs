@@ -31,6 +31,7 @@ namespace Chapter2
             catch (ThreadAbortException ex)
             {
                 OutputProvider.ShowThreadAbortException(ex.Message);
+                //Thread.ResetAbort();
             }
             catch (Exception ex)
             {

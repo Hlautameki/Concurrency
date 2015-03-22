@@ -5,7 +5,7 @@ namespace Chapter2
 {
     public static class PiCalculator
     {
-        private static readonly Random Random = new Random();
+        public static readonly Random Random = new Random();
 
         public static double ObliczPi(long ilośćPrób)
         {
